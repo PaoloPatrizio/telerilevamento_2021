@@ -8,3 +8,7 @@ p224r63_2011 <- brick("p224r63_2011_masked.grd")
 p224r63_2011
 plot(p224r63_2011)
 #tramite la funzione plot è possibile graficare l'oggetto caricato.
+cl <- colorRampPalette(c("black","grey","light grey"))(100)
+# la funzione colorRampPalette serve ad indicare i colori con cui visualizzare il plot. 
+plot(p224r63_2011,col=cl)
+#gli argomenti vanno sempre separati con la virgola. in questo caso la funzione plot è utilizzata per graficare gli argomenti: immagine e colori desiderati.
