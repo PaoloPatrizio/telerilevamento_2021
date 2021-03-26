@@ -42,3 +42,29 @@ plot(p224r63_2011$B3_sre, col=clr)
 clnir <- colorRampPalette(c("red","orange","yellow")) (100)
 plot(p224r63_2011$B4_sre, col=clnir)
 #attraverso questa serie di comandi noi possiamo plottare insieme un certo numero di bande ognuna con una determinata coloramppalette.
+plotRGB(p224r63_2011,r=3,g=2,b=1,stretch="Lin")
+#la funzione plotRGB permette di proiettare insieme diverse bande, viene utilizzata anche per visuaizzare immagini con colori "reali". le bande per la visualizzazione dei colori reali devono essere montate cosi come fatto (3,2,1).
+#SCRIVERE QUI la funzione stretch
+plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
+#in questo caso l'infrarosso vicino è montato sulla banda del rosso (e cosi viene visualizzato), il rosso su quella del verde ed il verde su quella del blu. la banda del blu viene cosi non considerata (si possono visualizzare solo 3 bande per volta).
+plotRGB(p224r63_2011,r=3,g=4,b=2,stretch="Lin")
+#montando cosi le bande l'infrarosso vicino viene visualizzato come verde, la parte viola rappresenta invece il suolo nudo in questo tipo di montaggio.
+plotRGB(p224r63_2011,r=3,g=2,b=4,stretch="Lin")
+#
+par(mfcol=c(2,2))
+plotRGB(p224r63_2011,r=3,g=4,b=2,stretch="Lin")
+plotRGB(p224r63_2011,r=3,g=2,b=4,stretch="Lin")
+plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
+plotRGB(p224r63_2011,r=3,g=2,b=1,stretch="Lin")
+#
+pdf("il_mio_primo_pdf_con_R.pdf")
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
+dev.off()
+#attraverso la funzione "pdf" è possibile salvare all'interno di un pdf i successivi plot che inseriamo. il tutto va chiuso con dev.off().
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
+#attraverso lo strecth "hist" è possibile stretchare ancora di più i valori centrali, permettendo cosi una visualizzazione ancora diversa (in questo caso si evidenziano meglio differenze all'interno del patch forestale).
+#per gli studi di vegetazione l'infrarosso si usa di solito sull componente red, non c'è una visualizzazione migliore di altre. la visualizzazione migliore viene trovata empiricamente (esperienza fondamentale)
