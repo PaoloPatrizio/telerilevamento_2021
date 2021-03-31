@@ -3,3 +3,4 @@
 #data and code from Emanuela Cosma
 library(raster)
 setwd("/Users/paolopatrizio/Desktop/lab/greenland")
+install.packeges("rasterVis")
