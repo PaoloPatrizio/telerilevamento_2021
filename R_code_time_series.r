@@ -50,3 +50,4 @@ melt_amount<-melt$X2007annual_melt - melt$X1979annual_melt
 #essendo la differenza operata tra file interni ad un file più grande (il rasterstack melt) bisogna legarli a quest'ultimo con il $.
 clb<-colorRampPalette(c("blue","light blue","pink","red"))(100)
 plot(melt_amount, col=clb)
+#mentre con il plot l'argomento è "col", con il levelplot questo è col.regions
