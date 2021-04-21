@@ -1,0 +1,17 @@
+#R_code_classification
+
+library(raster)
+#necessitiamo della libreria raster per utilizzare la funzione brick ai fini di importare in R l'immagine desiderata (composta da 3 layers)
+library(RStoolbox)
+setwd("/Users/paolopatrizio/Desktop/lab")
+so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
+#plotRGB ci permette di visualizzare questo tipo di immagine elaborata sulla base dei 3 livelli. 
+so
+#un pixel viene assegnato ad una classe di appartanenza rispetto alla riflettanza nelle varie bande (se più vicina alla rilettanza tipica di una vegetazione viene assegnato a quella classe).
+#ciò viene fatto attraverso una classificazione non-supervisionata-> compiuta attraverso i training-set (pixel guida scelti dal software) il cui numero è fissato dall'operatore, cosi come il numero delle classi (separatamente)
+soc<-unsuperClass(so,nClasses=3)
+plot(soc$map)
+#questo plottaggio ci permette di visualizzare le classi rispetto all'immagine analizzata
+set.seed(42)
+#SCRIVERE QUI FUNZIONE SET.SEED
+#in questo tipo di algoritmo di classificazione viene considerata solamente la riflettanza, ci sono invce altre classificazioni che possono identificare anche forme diverse. 
