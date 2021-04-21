@@ -15,3 +15,4 @@ plot(soc$map)
 set.seed(42)
 #SCRIVERE QUI FUNZIONE SET.SEED
 #in questo tipo di algoritmo di classificazione viene considerata solamente la riflettanza, ci sono invce altre classificazioni che possono identificare anche forme diverse. 
+
