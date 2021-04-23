@@ -1,0 +1,9 @@
+library(raster)
+library(RStoolbox)
+setwd("/Users/paolopatrizio/Desktop/lab")
+p224r63_2011<-brick("p224r63_2011_masked.grd")
+plot(p224r63_2011)
+plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre)
+#l'ordine degli assi dipende da quale banda mettiamo prima
+#pch-> point charachter, possiamo cosi scegliere il layout dei punti
+#pairs è una funzione che ci permette di plottare tutte le correlazioni possibili di molte variabili -> mette in correlazione due a due tutte le variabili di un dataset (esempio correlazione tra 7 bande)
