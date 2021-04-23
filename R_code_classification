@@ -15,4 +15,16 @@ plot(soc$map)
 set.seed(42)
 #SCRIVERE QUI FUNZIONE SET.SEED
 #in questo tipo di algoritmo di classificazione viene considerata solamente la riflettanza, ci sono invce altre classificazioni che possono identificare anche forme diverse. 
-
+###
+#Grand Canyon
+###
+library(raster)
+library(RStoolbox)
+setwd("/Users/paolopatrizio/Desktop/lab")
+GC<- brick("dolansprings_oli_2013088_canyon_lrg.JPG")
+plotRGB(GC,r=1,g=2,B=3, stretch="lin")
+#plotRGB pemette di plottare un file raster composto da più layer
+GCC2<-unsuperClass(GC,nClasses=2)
+#la funzione unsuperclass ci permette di svolgere una classificazione non-supervisionata
+plot(GCC2$map)
+#se fosse disponibile anche la banda dell'infrarosso (cosa che non è perchè l'immagine è disponibile con le tre bande RGB) allora l'acqua potrebbe essere identificata in una classe differente.
