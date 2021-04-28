@@ -5,7 +5,7 @@ p224r63_2011<-brick("p224r63_2011_masked.grd")
 plot(p224r63_2011)
 plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre)
 #l'ordine degli assi dipende da quale banda mettiamo prima
-#pch-> point charachter, con questo argomento possiamo scegliere il layout dei punti graficati ###VEDERE LEZIONE PER ARGOMENTI###
+#pch-> point charachter, con questo argomento possiamo scegliere il layout dei punti graficati ###VEDERE LEZIONE PER ARGOMENTI(28/04)###
 pairs(p224r63_2011)
 #pairs è una funzione che ci permette di plottare tutte le correlazioni possibili di molte variabili -> mette in correlazione due a due tutte le variabili di un dataset (esempio: correlazione tra 7 bande)
 p224r63_2011res<-aggregate(p224r63_2011, fact=10)
