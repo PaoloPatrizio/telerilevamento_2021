@@ -5,5 +5,22 @@ p224r63_2011<-brick("p224r63_2011_masked.grd")
 plot(p224r63_2011)
 plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre)
 #l'ordine degli assi dipende da quale banda mettiamo prima
-#pch-> point charachter, possiamo cosi scegliere il layout dei punti
-#pairs è una funzione che ci permette di plottare tutte le correlazioni possibili di molte variabili -> mette in correlazione due a due tutte le variabili di un dataset (esempio correlazione tra 7 bande)
+#pch-> point charachter, con questo argomento possiamo scegliere il layout dei punti graficati ###VEDERE LEZIONE PER ARGOMENTI###
+pairs(p224r63_2011)
+#pairs è una funzione che ci permette di plottare tutte le correlazioni possibili di molte variabili -> mette in correlazione due a due tutte le variabili di un dataset (esempio: correlazione tra 7 bande)
+p224r63_2011res<-aggregate(p224r63_2011, fact=10)
+#essendo il file pesante, prima di svolgere la PCA possiamo ricampionare (resample) l'immagine attraverso la funzione "aggregate", ciò ci permette di ridurre la dimensione del file riducendone la risoluzione.
+par(mfrow=c(2,1))
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="lin")
+plotRGB(p224r63_2011res, r=4, g=3, b=2, stretch="lin")
+#attraverso questi due plottaggi può essere evidenziata la differenza tra l'immagine ricampionata e l'originale
+p224r63_2011res_pca <- rasterPCA(p224r63_2011res)
+#la funzione "rasterPCA" prende il nostro pacchetto di dati e va a compattarli in un numero minore di bande. il risultato di questa funzione è un modello ed una mappa.
+summary(p224r63_2011res_pca$model)
+#la funzione summary fornisce un sommario del nostro modello ($model), in questo caso il modello è quello generato con la funzione rasterPCA. In tal modo possiamo capire in che proporzioni le bande (componenti) spiegano la varianza.
+#la prima componente è sempre quella che spiega la maggiore variabilità (proportion of variance)
+plotRGB(p224r63_2011res_pca$map, r=1,g=2,b=3,stretch="lin")
+#per visualizzare l'immagine dopo l'analisi multivariata bisogna legarla a map ($map), cosi come fatto per visualizzare il sommario del modello ($model)
+###SPOSTARE SPIEGAZIONE SET.SEED###
+#la funzione "set.seed" può essere utilizzata per ottenere sempre lo stesso risultato dalle funzioni che possono portare una certa variabilità nella ripetizione dell'operazione.
+###VEDERE FINE LEZIONE PER UTILIZZO ANALISI MULTIVARIATA###
