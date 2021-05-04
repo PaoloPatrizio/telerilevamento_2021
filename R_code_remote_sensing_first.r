@@ -11,6 +11,7 @@ plot(p224r63_2011)
 #tramite la funzione plot è possibile graficare l'oggetto caricato.
 cl <- colorRampPalette(c("black","grey","light grey"))(100)
 # la funzione colorRampPalette serve ad indicare i colori con cui visualizzare il plot. è bene associare ogni funzione ad un nome. il numero finale fuori funzione serve a definire il numero di livelli, più livelli ci sono più sfumature ci saranno.
+# la "C" prima dei colori serve ad identificare questi in un vettore
 plot(p224r63_2011,col=cl)
 #gli argomenti vanno sempre separati con la virgola. in questo caso la funzione plot è utilizzata per graficare gli argomenti: immagine e colori desiderati.
 #l'oggetto "p224r63_2011" è un'immagine rilevata in diverse bande (sensori landsat): (B1,blu);(B2,verde);(B3,rosso);(B4,infrarosso vicino);(B5,infrarosso medio);(B6,infrarosso termico);(B7, infrarosso medio)
