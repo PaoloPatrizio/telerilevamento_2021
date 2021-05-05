@@ -3,6 +3,9 @@ library(raster)
 #una funzione equivalente di "library" è "require"
 library(RStoolbox)
 #RStoolbox è necessario al calcolo degli indici con la funzione "spectralIndices"
+#installare il pacchetto "rasterdiv" se non già presente
+library(rasterdiv)
+library(rasterVis)
 setwd("/Users/paolopatrizio/Desktop/lab")
 defor1<-brick("defor1.png")
 defor2<-brick("defor2.png")
@@ -37,3 +40,11 @@ cld <- colorRampPalette(c('blue','white','red'))(100)
 #dev.off()
 plot(difndvi, col=cld)
 #in rosso sono evidenziate le aree che hanno avuto la maggiore perdita in termini di NDVI
+###WORLDWIDE NDVI -> 
+plot(copNDVI)
+#copNDVI è un dataset gratuito già presente nella vignette del pacchetto rasterdiv    
+copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
+plot(copNDVI)
+#la funzione di riclassificazione può essere utilizzata, in questo caso, per assegnare a pixel di determinati valori un valore nullo (NA)
+#con "cbind" scegliamo di assegnare un valore nullo ai pixel che hanno valori da 253 a 255
+levelplot(copNDVI)
