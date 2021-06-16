@@ -1,0 +1,38 @@
+# R esercitazione NO2
+setwd("/Users/paolopatrizio/Desktop/lab/EN")
+library(raster)
+library(viridis)
+library(RStoolbox)
+# exploring trends between first and last image
+par(mfrow=c(3,1))
+EN_1<-raster("EN_0001.png")
+clb<-colorRampPalette(c("dark blue","blue","lightblue"))(250)
+plot(EN_1, col=clb, main= "NO2_1")
+EN_13<-raster("EN_0013.png")
+plot(EN_13, col=clb, main="NO2_2")
+diff_NO2_13_1<-EN_13-EN_1
+plot(diff_NO2_13_1, main= "NO2 differences")
+#
+dev.off()
+#
+# create a stack of all NO2 images
+list_EN<-list.files(pattern = "png")
+import_NO2<-lapply(list_EN,raster)
+stack_EN<-stack(import_NO2)
+# esercizio
+par(mfrow=c(1,3))
+plot(stack_EN$EN_0001)
+plot(stack_EN$EN_0013)
+plot(stack_EN$EN_0013-stack_EN$EN_0001)
+#
+dev.off()
+#
+# multivariate analysis of the stack_EN
+stack_pca<-rasterPCA(stack_EN)
+plot(stack_pca$map$PC1)
+plotRGB(stack_pca$map, 1,2,3, stretch="lin")
+#
+pc1<-stack_pca$map$PC1
+pc1sd5<-focal(pc1,w=matrix(1/9,nrow=3,ncol=3),fun=sd)
+ggplot() + 
+  geom_raster(pc1sd5, mapping=aes(x=x,y=y,fill=layer))
