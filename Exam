@@ -1,0 +1,438 @@
+library(raster)
+library(rasterVis)
+library(rgdal)
+library(gdalUtils)
+library(gridExtra)
+library(RStoolbox)
+library(stats)
+library(lattice)
+library(ggplot2)
+
+### CONVERTING FILES OF 2001
+
+# create a list of files from the lst_2001 folder
+list_lst_2001 <- list.files(pattern = "MOD")
+# convert the files present in the list from .hdf4 to .tif, in particular I want to convert only the subdatasets [1]
+for (filename in list_lst_2001)
+{
+  sds <- get_subdatasets(filename)
+  gdal_translate(sds[1], dst_dataset=paste0(substr(filename, 1, nchar(filename)-4) ,".tif"))
+}
+
+### LST 2001
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2001")
+#creo una lista dei file nella cartella con gli elementi salvati
+list_dl_lst_2001<-list.files(pattern = "tif")
+#importo i file in R
+imported_list_dl_lst_2001<-lapply(list_dl_lst_2001,raster)
+#li riunisco in un unico rasterStack
+stack_dl_lst_2001<-stack(imported_list_dl_lst_2001)
+#ne creo un singolo raster ottenuto come media dei 12 precedenti
+dl_lst_2001<-mean(stack_dl_lst_2001)
+#importo in R lo shapefile dell'area di studio
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+#converto il crs dello shapefile nello stesso del raster lst
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2001))
+#croppo il rasterStack con lo shapefile
+maia_dl_lst_2001_cropped<-crop(dl_lst_2001,shp_area_studio_longlat)
+#salvo il rasterStack croppato come file .rds in una cartella 
+saveRDS(maia_dl_lst_2001_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2001.rds")
+maia_dl_lst_2001<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2001.rds")
+plot(maia_dl_lst_2001, main = "LST_2001")
+
+
+### LST 2002
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2002")
+list_dl_lst_2002<-list.files(pattern = "tif")
+imported_list_dl_lst_2002<-lapply(list_dl_lst_2002,raster)
+stack_dl_lst_2002<-stack(imported_list_dl_lst_2002)
+dl_lst_2002<-mean(stack_dl_lst_2002)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2002))
+maia_dl_lst_2002_cropped<-crop(dl_lst_2002,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2002_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2002.rds")
+maia_dl_lst_2002<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2002.rds")
+plot(maia_dl_lst_2002, main = "LST_2002")
+
+### LST 2003
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2003")
+list_dl_lst_2003<-list.files(pattern = "tif")
+imported_list_dl_lst_2003<-lapply(list_dl_lst_2003,raster)
+stack_dl_lst_2003<-stack(imported_list_dl_lst_2003)
+dl_lst_2003<-mean(stack_dl_lst_2003)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2003))
+maia_dl_lst_2003_cropped<-crop(dl_lst_2003,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2003_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2003.rds")
+maia_dl_lst_2003<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2003.rds")
+plot(maia_dl_lst_2003,main = "LST_2003")
+
+### LST 2004
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2004")
+list_dl_lst_2004<-list.files(pattern = "tif")
+imported_list_dl_lst_2004<-lapply(list_dl_lst_2004,raster)
+stack_dl_lst_2004<-stack(imported_list_dl_lst_2004)
+dl_lst_2004<-mean(stack_dl_lst_2004)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2004))
+maia_dl_lst_2004_cropped<-crop(dl_lst_2004,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2004_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2004.rds")
+maia_dl_lst_2004<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2004.rds")
+plot(maia_dl_lst_2004)
+
+### LST 2005
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2005")
+list_dl_lst_2005<-list.files(pattern = "tif")
+imported_list_dl_lst_2005<-lapply(list_dl_lst_2005,raster)
+stack_dl_lst_2005<-stack(imported_list_dl_lst_2005)
+dl_lst_2005<-mean(stack_dl_lst_2005)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2004))
+maia_dl_lst_2005_cropped<-crop(dl_lst_2005,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2005_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2005.rds")
+maia_dl_lst_2005<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2005.rds")
+plot(maia_dl_lst_2005)
+
+### LST 2006
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2006")
+list_dl_lst_2006<-list.files(pattern = "tif")
+imported_list_dl_lst_2006<-lapply(list_dl_lst_2006,raster)
+stack_dl_lst_2006<-stack(imported_list_dl_lst_2006)
+dl_lst_2006<-mean(stack_dl_lst_2006)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2006))
+maia_dl_lst_2006_cropped<-crop(dl_lst_2006,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2006_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2006.rds")
+maia_dl_lst_2006<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2006.rds")
+plot(maia_dl_lst_2006,main = "LST_2006")
+
+### LST 2007
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2007")
+list_dl_lst_2007<-list.files(pattern = "tif")
+imported_list_dl_lst_2007<-lapply(list_dl_lst_2007,raster)
+stack_dl_lst_2007<-stack(imported_list_dl_lst_2007)
+dl_lst_2007<-mean(stack_dl_lst_2007)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2007))
+maia_dl_lst_2007_cropped<-crop(dl_lst_2007,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2007_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2007.rds")
+maia_dl_lst_2007<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2007.rds")
+plot(maia_dl_lst_2007)
+
+### LST 2008
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2008")
+list_dl_lst_2008<-list.files(pattern = "tif")
+imported_list_dl_lst_2008<-lapply(list_dl_lst_2008,raster)
+stack_dl_lst_2008<-stack(imported_list_dl_lst_2008)
+dl_lst_2008<-mean(stack_dl_lst_2008)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2008))
+maia_dl_lst_2008_cropped<-crop(dl_lst_2008,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2008_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2008.rds")
+maia_dl_lst_2008<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2008.rds")
+plot(maia_dl_lst_2008)
+
+### LST 2009
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2009")
+list_dl_lst_2009<-list.files(pattern = "tif")
+imported_list_dl_lst_2009<-lapply(list_dl_lst_2009,raster)
+stack_dl_lst_2009<-stack(imported_list_dl_lst_2009)
+dl_lst_2009<-mean(stack_dl_lst_2009)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2009))
+maia_dl_lst_2009_cropped<-crop(dl_lst_2009,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2009_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2009.rds")
+maia_dl_lst_2009<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2009.rds")
+plot(maia_dl_lst_2009,main = "LST_2009")
+
+### LST 2010
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2010")
+list_dl_lst_2010<-list.files(pattern = "tif")
+imported_list_dl_lst_2010<-lapply(list_dl_lst_2010,raster)
+stack_dl_lst_2010<-stack(imported_list_dl_lst_2010)
+dl_lst_2010<-mean(stack_dl_lst_2010)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2010))
+maia_dl_lst_2010_cropped<-crop(dl_lst_2010,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2010_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2010.rds")
+maia_dl_lst_2010<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2010.rds")
+plot(maia_dl_lst_2010,main = "LST_2010")
+
+### LST 2011
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2011")
+list_dl_lst_2011<-list.files(pattern = "tif")
+imported_list_dl_lst_2011<-lapply(list_dl_lst_2011,raster)
+stack_dl_lst_2011<-stack(imported_list_dl_lst_2011)
+dl_lst_2011<-mean(stack_dl_lst_2011)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2011))
+maia_dl_lst_2011_cropped<-crop(dl_lst_2011,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2011_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2011.rds")
+maia_dl_lst_2011<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2011.rds")
+plot(maia_dl_lst_2011,main = "LST_2011")
+
+### LST 2012
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2012")
+list_dl_lst_2012<-list.files(pattern = "tif")
+imported_list_dl_lst_2012<-lapply(list_dl_lst_2012,raster)
+stack_dl_lst_2012<-stack(imported_list_dl_lst_2012)
+dl_lst_2012<-mean(stack_dl_lst_2012)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2012))
+maia_dl_lst_2012_cropped<-crop(dl_lst_2012,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2012_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2012.rds")
+maia_dl_lst_2012<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2012.rds")
+plot(maia_dl_lst_2012,main = "LST_2012")
+
+### LST 2013
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2013")
+list_dl_lst_2013<-list.files(pattern = "tif")
+imported_list_dl_lst_2013<-lapply(list_dl_lst_2013,raster)
+stack_dl_lst_2013<-stack(imported_list_dl_lst_2013)
+dl_lst_2013<-mean(stack_dl_lst_2013)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2010))
+maia_dl_lst_2013_cropped<-crop(dl_lst_2013,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2013_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2013.rds")
+maia_dl_lst_2013<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2013.rds")
+plot(maia_dl_lst_2013,main = "LST_2013")
+
+### LST 2014
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2014")
+list_dl_lst_2014<-list.files(pattern = "tif")
+imported_list_dl_lst_2014<-lapply(list_dl_lst_2014,raster)
+stack_dl_lst_2014<-stack(imported_list_dl_lst_2014)
+dl_lst_2014<-mean(stack_dl_lst_2014)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2014))
+maia_dl_lst_2014_cropped<-crop(dl_lst_2014,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2014_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2014.rds")
+maia_dl_lst_2014<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2014.rds")
+plot(maia_dl_lst_2014,main = "LST_2014")
+
+### LST 2015
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2015")
+list_dl_lst_2015<-list.files(pattern = "tif")
+imported_list_dl_lst_2015<-lapply(list_dl_lst_2015,raster)
+stack_dl_lst_2015<-stack(imported_list_dl_lst_2015)
+dl_lst_2015<-mean(stack_dl_lst_2015)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2015))
+maia_dl_lst_2015_cropped<-crop(dl_lst_2015,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2015_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2015.rds")
+maia_dl_lst_2015<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2015.rds")
+plot(maia_dl_lst_2015,main = "LST_2015")
+
+### LST 2016
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2016")
+list_dl_lst_2016<-list.files(pattern = "tif")
+imported_list_dl_lst_2016<-lapply(list_dl_lst_2016,raster)
+stack_dl_lst_2016<-stack(imported_list_dl_lst_2016)
+dl_lst_2016<-mean(stack_dl_lst_2016)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2016))
+maia_dl_lst_2016_cropped<-crop(dl_lst_2016,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2016_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2016.rds")
+maia_dl_lst_2016<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2016.rds")
+plot(maia_dl_lst_2016,main = "LST_2016")
+
+### LST 2017
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2017")
+list_dl_lst_2017<-list.files(pattern = "tif")
+imported_list_dl_lst_2017<-lapply(list_dl_lst_2017,raster)
+stack_dl_lst_2017<-stack(imported_list_dl_lst_2017)
+dl_lst_2017<-mean(stack_dl_lst_2017)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2017))
+maia_dl_lst_2017_cropped<-crop(dl_lst_2017,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2017_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2017.rds")
+maia_dl_lst_2017<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2017.rds")
+plot(maia_dl_lst_2017,main = "LST_2017")
+
+### LST 2018
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2018")
+list_dl_lst_2018<-list.files(pattern = "tif")
+imported_list_dl_lst_2018<-lapply(list_dl_lst_2018,raster)
+stack_dl_lst_2018<-stack(imported_list_dl_lst_2018)
+dl_lst_2018<-mean(stack_dl_lst_2018)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2018))
+maia_dl_lst_2018_cropped<-crop(dl_lst_2018,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2018_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2018.rds")
+maia_dl_lst_2018<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2018.rds")
+plot(maia_dl_lst_2018,main = "LST_2018")
+
+### LST 2019
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2019")
+list_dl_lst_2019<-list.files(pattern = "tif")
+imported_list_dl_lst_2019<-lapply(list_dl_lst_2019,raster)
+stack_dl_lst_2019<-stack(imported_list_dl_lst_2019)
+dl_lst_2019<-mean(stack_dl_lst_2019)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2019))
+maia_dl_lst_2019_cropped<-crop(dl_lst_2019,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2019_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2019.rds")
+maia_dl_lst_2019<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2019.rds")
+plot(maia_dl_lst_2019,main = "LST_2019")
+
+### LST 2020
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/lst_2020")
+list_dl_lst_2020<-list.files(pattern = "tif")
+imported_list_dl_lst_2020<-lapply(list_dl_lst_2020,raster)
+stack_dl_lst_2020<-stack(imported_list_dl_lst_2020)
+dl_lst_2020<-mean(stack_dl_lst_2020)
+shp_area_studio<-readOGR("/Users/paolopatrizio/Desktop/tesi/DATI QGIS/Area studio climatico")
+shp_area_studio_longlat<-spTransform(shp_area_studio, crs(dl_lst_2020))
+maia_dl_lst_2020_cropped<-crop(dl_lst_2020,shp_area_studio_longlat)
+saveRDS(maia_dl_lst_2020_cropped, file = "/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2020.rds")
+maia_dl_lst_2020<-readRDS("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020/maia_dl_lst_2020.rds")
+plot(maia_dl_lst_2020,main = "LST_2020")
+
+### PLOTTING MEAN ANNUAL LST FROM 2001 TO 2020
+
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/maia_lst_2001_2020")
+#creo una lista degli LST medi annui croppati presenti nella nuova cartella 
+list_dl_lst_2001_2020<-list.files(pattern = "rds")
+#carico gli LST medi annui in R 
+imported_list_dl_lst_2001_2020<-lapply(list_dl_lst_2001_2020, readRDS)
+#creo un rasterStack degli LST 
+stack_dl_lst_2001_2020<-stack(imported_list_dl_lst_2001_2020)
+#plotto insieme gli LST medi annui dal 2001 al 2020
+levelplot(stack_dl_lst_2001_2020, main="Mean annual LST variation in Maiella National Park", names.attr=c("LST 2001","LST 2002","LST 2003","LST 2004","LST 2005","LST 2006","LST 2007","LST 2008","LST 2009","LST 2010","LST 2011","LST 2012","LST 2013","LST 2014","LST 2015","LST 2016","LST 2017","LST 2018","LST 2019","LST 2020"))
+
+### PAIRWISE DIFFERENCES BETWEEN CONSECUTIVE YEARS
+
+differenza_lst_2002_2001<-maia_dl_lst_2002 - maia_dl_lst_2001
+saveRDS(differenza_lst_2002_2001, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2002_2001.rds")
+differenza_lst_2003_2002<-maia_dl_lst_2003 - maia_dl_lst_2002
+saveRDS(differenza_lst_2003_2002, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2003_2002.rds")
+differenza_lst_2004_2003<-maia_dl_lst_2004 - maia_dl_lst_2003
+saveRDS(differenza_lst_2004_2003, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2004_2003.rds")
+differenza_lst_2005_2004<-maia_dl_lst_2005 - maia_dl_lst_2004
+saveRDS(differenza_lst_2005_2004, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2005_2004.rds")
+differenza_lst_2006_2005<-maia_dl_lst_2006 - maia_dl_lst_2005
+saveRDS(differenza_lst_2006_2005, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2006_2005.rds")
+differenza_lst_2007_2006<-maia_dl_lst_2007 - maia_dl_lst_2006
+saveRDS(differenza_lst_2007_2006, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2007_2006.rds")
+differenza_lst_2008_2007<-maia_dl_lst_2008 - maia_dl_lst_2007
+saveRDS(differenza_lst_2008_2007, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2008_2007.rds")
+differenza_lst_2009_2008<-maia_dl_lst_2009 - maia_dl_lst_2008
+saveRDS(differenza_lst_2009_2008, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2009_2008.rds")
+differenza_lst_2010_2009<-maia_dl_lst_2010 - maia_dl_lst_2009
+saveRDS(differenza_lst_2010_2009, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2010_2009.rds")
+differenza_lst_2011_2010<-maia_dl_lst_2011 - maia_dl_lst_2010
+saveRDS(differenza_lst_2011_2010, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2011_2010.rds")
+differenza_lst_2012_2011<-maia_dl_lst_2012 - maia_dl_lst_2011
+saveRDS(differenza_lst_2012_2011, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2012_2011.rds")
+differenza_lst_2013_2012<-maia_dl_lst_2013 - maia_dl_lst_2012
+saveRDS(differenza_lst_2013_2012, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2013_2012.rds")
+differenza_lst_2014_2013<-maia_dl_lst_2014 - maia_dl_lst_2013
+saveRDS(differenza_lst_2014_2013, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2014_2013.rds")
+differenza_lst_2015_2014<-maia_dl_lst_2015 - maia_dl_lst_2014
+saveRDS(differenza_lst_2015_2014, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2015_2014.rds")
+differenza_lst_2016_2015<-maia_dl_lst_2016 - maia_dl_lst_2015
+saveRDS(differenza_lst_2016_2015, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2016_2015.rds")
+differenza_lst_2017_2016<-maia_dl_lst_2017 - maia_dl_lst_2016
+saveRDS(differenza_lst_2017_2016, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2017_2016.rds")
+differenza_lst_2018_2017<-maia_dl_lst_2018 - maia_dl_lst_2017
+saveRDS(differenza_lst_2018_2017, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2018_2017.rds")
+differenza_lst_2019_2018<-maia_dl_lst_2019 - maia_dl_lst_2018
+saveRDS(differenza_lst_2019_2018, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2019_2018.rds")
+differenza_lst_2020_2019<-maia_dl_lst_2020 - maia_dl_lst_2019
+saveRDS(differenza_lst_2020_2019, file = "/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences/differenza_lst_2020_2019.rds")
+
+### PLOTTING DIFFERENCES IN MEAN ANNUAL LST FROM 2001 TO 2020
+
+setwd("/Users/paolopatrizio/Desktop/lab/lst_project/pairwise_differences")
+list_differences<-list.files(pattern = "rds")
+imported_list_differences_dl_lst_2001_2020<-lapply(list_differences, readRDS)
+stack_differences_dl_lst_2001_2020<-stack(imported_list_differences_dl_lst_2001_2020)
+levelplot(stack_differences_dl_lst_2001_2020, main= "Differences in mean annual LST from year to year", names.attr=c("2002-2001","2003-2002","2004-2003","2005-2004","2006-2005","2007-2006","2008-2007","2009-2008","2010-2009","2011-2010","2012-2011","2013-2012","2014-2013","2015-2014","2016-2015","2017-2016","2018-2017","2019-2018","2020-2019"))
+
+### BOXPLOT OF LSTs
+
+names(stack_dl_lst_2001_2020)<-c("LST 2001","LST 2002","LST 2003","LST 2004","LST 2005","LST 2006","LST 2007","LST 2008","LST 2009","LST 2010","LST 2011","LST 2012","LST 2013","LST 2014","LST 2015","LST 2016","LST 2017","LST 2018","LST 2019","LST 2020")
+boxplot_dl_lst_2001_2020<-boxplot(stack_dl_lst_2001_2020, main="BoxPlot of mean annual LST from 2001 to 2020",ylab="LST [K]")
+
+### BOXPLOT OF LST DIFFERENCES 
+
+names(stack_differences_dl_lst_2001_2020)<-c("2002-2001","2003-2002","2004-2003","2005-2004","2006-2005","2007-2006","2008-2007","2009-2008","2010-2009","2011-2010","2012-2011","2013-2012","2014-2013","2015-2014","2016-2015","2017-2016","2018-2017","2019-2018","2020-2019")
+boxplot_differences_dl_lst_2001_2020<-boxplot(stack_differences_dl_lst_2001_2020, main="pairwise differences from 2001 to 2020", ylab="°C")
+abline(h=0,col="red")
+
+### DIFFERENZA PRIMO E SECONDO DECENNIO
+#calcolo la media del primo decennio 
+lst_01_10<-list(maia_dl_lst_2001,maia_dl_lst_2002,maia_dl_lst_2003,maia_dl_lst_2004,maia_dl_lst_2005,maia_dl_lst_2006,maia_dl_lst_2007,maia_dl_lst_2008,maia_dl_lst_2009,maia_dl_lst_2010)
+stack_lst_01_10<-stack(lst_01_10)
+mean_lst_01_10<-mean(stack_lst_01_10)
+#converto da kelvin in celsius
+mean_lst_01_10_c<-mean_lst_01_10 - 273.15
+#calcolo la media del secondo decennio
+lst_11_20<-list(maia_dl_lst_2011,maia_dl_lst_2012,maia_dl_lst_2013,maia_dl_lst_2014,maia_dl_lst_2015,maia_dl_lst_2016,maia_dl_lst_2017,maia_dl_lst_2018,maia_dl_lst_2019,maia_dl_lst_2020)
+stack_lst_11_20<-stack(lst_11_20)
+mean_lst_11_20<-mean(stack_lst_11_20)
+#converto da kelvin in celsius
+mean_lst_11_20_c<-mean_lst_11_20 - 273.15
+#opero la sottrazione dei layer creati
+diff_primo_secondo_decennio<-mean_lst_11_20_c-mean_lst_01_10_c
+levelplot(diff_primo_secondo_decennio, main="Differenza tra primo e secondo decennio")
+cl <- colorRampPalette(c("pink","red","dark red","violet")) (10000)
+plot(diff_primo_secondo_decennio, main="Differenza tra primo e secondo decennio", col=cl)
+plot(shp_area_studio_longlat, add=T)
+
+#differenze tra stazioni ed alta quota 
+#mean_annual_lst_2001_2010
+plot(mean_lst_01_10_c)
+plot(shp_area_studio_longlat,add=T)
+click(mean_lst_01_10_c,n=4,id=T,xy=T,cell=T,type="p", pch=16, col="green")
+#mean_annual_lst_2011_2020
+plot(mean_lst_11_20_c)
+plot(shp_area_studio_longlat,add=T)
+click(mean_lst_11_20_c,n=4,id=T,xy=T,cell=T,type="p", pch=16, col="green")
+
+##results guardiagrele 2001-2010
+#                   x      y    cell  value
+#guardiagrele    14.225 42.175   29 20.378168
+#altare stincone 14.175 42.075   48 12.953503
+
+## results sant'eufemia 2001-2010
+#                 x      y    cell  value
+#Sant'Eufemia  14.025 42.125   35 12.98051
+#Femmina morta 14.075 42.075   46  6.803168
+
+
+##results guardiagrele 2011-2020
+#                   x      y    cell   value
+#Guardiagrele    14.225 42.175   29 20.779669
+#Altare stincone 14.175 42.075   48 13.882498
+
+## results sant'eufemia 2011-2020
+#                   x      y    cell   value
+#Sant'Eufemia    14.025 42.125   35 13.650998
+#Femmina morta   14.075 42.075   46  7.714499
+
+guardiagrele<-c(20.378168,20.779669)
+altare<-c(12.953503,13.882498)
+decenni<-c(1,2)
+cc<-data.frame(guardiagrele,altare,decenni)
+
+ggplot(cc, aes(x=decenni)) +
+  geom_line(aes(y=guardiagrele), color="blue") +
+  geom_line(aes(y=altare), color="red") +
+  labs(x="decennio", y="rosso = Altare dello Stincone, blu = Guardiagrele")
+
+# Guardiagrele = +0.401501
+# Altare dello stincone = +0.928995
+
+santeufemia <-c(12.98051,13.650998)
+femminamorta<-c(6.803168,7.714499)
+decenni<-c(1,2)
+ccc<-data.frame(santeufemia,femminamorta,decenni)
+
+ggplot(cc, aes(x=decenni)) +
+  geom_line(aes(y=santeufemia), color="blue") +
+  geom_line(aes(y=femminamorta), color="red") +
+  labs(x="decennio", y="rosso = Femmina morta, blu = Sant'Eufemia")
+
+# Sant'Eufemia = +0.670488
+# Femmina Morta = +0.911331
