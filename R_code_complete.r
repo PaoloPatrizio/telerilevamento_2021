@@ -163,7 +163,7 @@ plot(melt_amount, col=clb)
 library(raster)
 install.packages("ncdf4")
 library(ncdf4)
-#la libreria "ncdf4" serve a leggere i file con estensione .nc
+#il pacchetto "ncdf4" serve a leggere i file con estensione .nc
 setwd("/Users/paolopatrizio/Desktop/lab")
 lst_2021_04_01<-raster("c_gls_LST10-DC_202104010000_GLOBE_GEO_V2.0.1.nc")
 cl<-colorRampPalette(c("red","pink","orange","yellow"))(100)
@@ -192,7 +192,7 @@ p224r63_2011<-brick("p224r63_2011_masked.grd")
 plot(p224r63_2011)
 plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre)
 #l'ordine degli assi dipende da quale banda mettiamo prima
-#pch-> point charachter, con questo argomento possiamo scegliere il layout dei punti graficati ###VEDERE LEZIONE PER ARGOMENTI(28/04)###
+#pch-> point charachter, con questo argomento possiamo scegliere il layout dei punti graficati
 pairs(p224r63_2011)
 #pairs è una funzione che ci permette di plottare tutte le correlazioni possibili di molte variabili -> mette in correlazione due a due tutte le variabili di un dataset (esempio: correlazione tra 7 bande)
 p224r63_2011res<-aggregate(p224r63_2011, fact=10)
@@ -208,9 +208,7 @@ summary(p224r63_2011res_pca$model)
 #la prima componente è sempre quella che spiega la maggiore variabilità (proportion of variance)
 plotRGB(p224r63_2011res_pca$map, r=1,g=2,b=3,stretch="lin")
 #per visualizzare l'immagine dopo l'analisi multivariata bisogna legarla a map ($map), cosi come fatto per visualizzare il sommario del modello ($model)
-###SPOSTARE SPIEGAZIONE SET.SEED###
 #la funzione "set.seed" può essere utilizzata per ottenere sempre lo stesso risultato dalle funzioni che possono portare una certa variabilità nella ripetizione dell'operazione.
-###VEDERE FINE LEZIONE PER UTILIZZO ANALISI MULTIVARIATA###
 
 #............................................................
 
@@ -229,7 +227,6 @@ soc<-unsuperClass(so,nClasses=3)
 plot(soc$map)
 #questo plottaggio ci permette di visualizzare le classi rispetto all'immagine analizzata
 set.seed(42)
-#SCRIVERE QUI FUNZIONE SET.SEED
 #in questo tipo di algoritmo di classificazione viene considerata solamente la riflettanza, ci sono invce altre classificazioni che possono identificare anche forme diverse. 
 ###
 #Grand Canyon
@@ -359,7 +356,6 @@ prop1<-freq(d1c$map)/s1
 #attraverso questa operazione trasformiamo il numero di pixel assegnati ad ogni classe (frequenza) in proporzione (%)
 s2 <- 342726
 prop2<-freq(d2c$map)/s2
-#CONCLUDERE CONTROLLANDO CHE LE CLASSI SIANO LE STESSE PER TUTTE E DUE LE IMMAGINI E COMPIERE IL CONFRONTO MATEMATICOO
 #fattori = variabili categoriche (non numeri) 
 
 ## dataframe building
@@ -430,7 +426,6 @@ source("source_test_lezione.r")
 source("source.ggplot.r")
 #creiamo una nuova finestra vuota con la funzione "ggplot" a cui noi aggiungeremo pezzi attraverso un semplice "+"
 ggplot() + #con "ggplot()" creiamo una finestra vuota (rettangolo) dove inserire ciò che vogliamo
-#???geom_raster VEDERE LEZIONE TEMPO 1 ora e 30
 geom_raster(pc1sd5, mapping=aes(x=x,y=y,fill=layer))
 #cosi si può capire che la zona con più ata variabilità territoriale è quella in alto a sinistra (nel nostro plot), variabilità dovuta alle carattaristiche molto eterogenee della geomorfologia
 geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
